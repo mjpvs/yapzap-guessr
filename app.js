@@ -76,7 +76,7 @@ document.querySelector('#game').addEventListener('submit', async event => {
   try {
     const ordered = [];
     songs.forEach((song, index) => { ordered[Number(song.id)] = guesses[index]; });
-    const response = await fetch('/api/score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ guesses: ordered }) });
+    const response = await fetch(new URL('./api/score', import.meta.url), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ guesses: ordered }) });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
     result.replaceChildren(element('p', 'eyebrow', 'THE RESULTS ARE IN'), element('h2', '', `${data.score} / ${data.total} correct`), element('p', '', 'The submitters are revealed below. Play again to start fresh.'));
@@ -84,7 +84,7 @@ document.querySelector('#game').addEventListener('submit', async event => {
     share.type = 'button';
     const shareStatus = element('p', 'share-status');
     shareStatus.setAttribute('role', 'status');
-    const shareText = `🎯 I scored ${data.score}/${data.total} on yapzapguessr!\n${new URL('/', window.location.href).href}`;
+    const shareText = `🎯 I scored ${data.score}/${data.total} on yapzapguessr!\n${new URL('./', import.meta.url).href}`;
     share.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(shareText);
@@ -125,7 +125,7 @@ reset.addEventListener('click', () => {
 });
 
 try {
-  const response = await fetch('/api/songs');
+  const response = await fetch(new URL('./api/songs', import.meta.url));
   if (!response.ok) throw new Error('Unable to load songs. Refresh to try again.');
   const data = await response.json();
   // Alphabetical order avoids revealing groups from the original submission order.
