@@ -36,6 +36,6 @@ const server = http.createServer(async (req, res) => {
     json(res, 404, { error: 'Not found.' });
   } catch { json(res, 500, { error: 'Something went wrong. Please try again.' }); }
 });
-server.listen(Number(process.env.PORT ?? 3000), '127.0.0.1', () => {
+server.listen(Number(process.env.PORT ?? 3030), '127.0.0.1', () => {
   console.log(`YapZap Guessr is running at http://localhost:${server.address().port}`);
 });
